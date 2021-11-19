@@ -11,7 +11,6 @@ import {
   HttpStatus,
   HttpCode,
 } from '@nestjs/common'
-import { DeleteResult } from 'typeorm'
 import Todo from './todo.entity'
 import ToDoService from './todo.service'
 import CreateTodoDto from './create-todo.dto'
@@ -47,7 +46,7 @@ export default class TodoController {
   }
 
   @Delete(':id')
-  delete(@Param('id') param: number): Promise<DeleteResult> {
+  delete(@Param('id') param: number): Promise<void | HttpException> {
     return this.todosService.deleteOne(param)
   }
 }

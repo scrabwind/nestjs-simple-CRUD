@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { DateTime } from 'luxon'
 import Todo from './todo.entity'
 import CreateTodoDto from './create-todo.dto'
@@ -42,13 +42,13 @@ export default class TodoService {
     })
   }
 
-  async deleteOne(id: number): Promise<DeleteResult> {
+  async deleteOne(id: number): Promise<void | HttpException> {
     const todo = await this.todoRepository.findOne(id)
     if (!todo)
       throw new HttpException(
         'Entity with given id does not exist',
         HttpStatus.NOT_FOUND
       )
-    return this.todoRepository.delete(id)
+    this.todoRepository.delete(id)
   }
 }
